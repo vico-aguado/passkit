@@ -158,12 +158,12 @@ func (m *inMemoryPassTemplate) AddAllFiles(directoryWithFilesToAdd string) error
 	}
 
 	for name, data := range loaded {
-		fmt.Println(name)
-		fmt.Println(filepath.Base(name))
+		//fmt.Println(name)
+		//fmt.Println(filepath.Base(name))
 		m.files[filepath.Base(name)] = data
 	}
 	
-	fmt.Println(m)
+	//fmt.Println(m)
 
 	return nil
 }
