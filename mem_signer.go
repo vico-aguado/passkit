@@ -23,15 +23,18 @@ func (m *memorySigner) CreateSignedAndZippedPassArchive(p *Pass, t PassTemplate,
 func (m *memorySigner) CreateSignedAndZippedPersonalizedPassArchive(p *Pass, pz *Personalization, t PassTemplate, i *SigningInformation) ([]byte, error) {
 	files, err := t.GetAllFiles()
 	if err != nil {
+		fmt.Println("--- GetAllFilesError ---")
 		return nil, err
 	}
 
 	if !p.IsValid() {
+		fmt.Println("--- p.IsValid Error ---")
 		return nil, fmt.Errorf("%v", p.GetValidationErrors())
 	}
 
 	pb, err := p.toJSON()
 	if err != nil {
+		fmt.Println("--- p.toJSONError ---")
 		return nil, err
 	}
 
@@ -40,6 +43,7 @@ func (m *memorySigner) CreateSignedAndZippedPersonalizedPassArchive(p *Pass, pz 
 	if pz != nil {
 		pzb, err := pz.toJSON()
 		if err != nil {
+			fmt.Println("--- pz.toJSONError ---")
 			return nil, err
 		}
 
@@ -48,11 +52,13 @@ func (m *memorySigner) CreateSignedAndZippedPersonalizedPassArchive(p *Pass, pz 
 
 	msftHash, err := m.hashFiles(files)
 	if err != nil {
+		fmt.Println("--- hashFilesError ---")
 		return nil, err
 	}
 
 	mfst, err := json.Marshal(msftHash)
 	if err != nil {
+		fmt.Println("--- MarshalError ---")
 		return nil, err
 	}
 
@@ -60,6 +66,7 @@ func (m *memorySigner) CreateSignedAndZippedPersonalizedPassArchive(p *Pass, pz 
 
 	signedMfst, err := signManifestFile(mfst, i)
 	if err != nil {
+		fmt.Println("--- signManifestFileError ---")
 		return nil, err
 	}
 
@@ -67,6 +74,7 @@ func (m *memorySigner) CreateSignedAndZippedPersonalizedPassArchive(p *Pass, pz 
 
 	z, err := m.createZipFile(files)
 	if err != nil {
+		fmt.Println("--- createZipFileError ---")
 		return nil, err
 	}
 
